@@ -1,10 +1,10 @@
-ï»¿package com.zxz.game;
+package com.zxz.game;
 
 /**
- * @author å‘¨è´¤ç­‘
+ * @author ÖÜÏÍÖþ
  * @version 1.0
  */
 public class Score {
-    //è®°å½•å¾—åˆ†
+    //¼ÇÂ¼µÃ·Ö
     public static int scores;
 }
