@@ -13,21 +13,14 @@ import java.awt.event.KeyListener;
  * 游戏界面面板
  */
 public class MyPanel extends JPanel {
-    //该数组存储贪吃蛇x坐标
-    int[] snakeX = new int[200];
-    //该数组存储贪吃蛇y坐标
-    int[] snakeY = new int[200];
-    //食物坐标
-    //int foodX;
-    //int foodY;
+    //蛇对象
+    Snake snake = null;
     //食物对象
     Food food = null;
-    //蛇长
-    int length;
     //蛇存活状态
     boolean isLive = true;
     //蛇朝向，默认向右
-    String direction;
+    //String direction;
     //游戏默认暂停
     boolean isStart = false;
     //设置游戏所需图片
@@ -39,16 +32,21 @@ public class MyPanel extends JPanel {
     Image foodImg = null;
     //设置定时器
     Timer timer;
-    //设置积分
-    int score;
+
+    //该数组存储贪吃蛇x坐标
+    int[] snakeX = new int[200];
+    //该数组存储贪吃蛇y坐标
+    int[] snakeY = new int[200];
 
     public void init(){
+        //初始化蛇对象
+        snake = new Snake();
         //初始化方向为R
-        direction = "R";
+        snake.setDirection("R");
         //初始化积分
-        score = 0;
+        Score.scores = 0;
         //初始化蛇长
-        length = 3;
+        snake.setLength(3);
         //初始化蛇的头坐标
         snakeX[0] = 175;
         snakeY[0] = 275;
@@ -58,6 +56,9 @@ public class MyPanel extends JPanel {
         //身体第二节
         snakeX[2] = 125;
         snakeY[2] = 275;
+
+        snake.setSnakeX(snakeX);
+        snake.setSnakeY(snakeY);
         //初始化食物坐标
         food = new Food(250,300);
 
@@ -76,28 +77,28 @@ public class MyPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(isStart && isLive){
                     //后一节身体替换前一节身体
-                    for (int i = length - 1; i > 0; i--) {
+                    for (int i = snake.getLength() - 1; i > 0; i--) {
                         snakeX[i] = snakeX[i - 1];
                         snakeY[i] = snakeY[i - 1];
                     }
-                    if(direction == "R"){
+                    if(snake.getDirection() == "R"){
                         snakeX[0] += 25;
                         if(snakeX[0] > 800){
                             snakeX[0] = 0;
                         }
-                    }else if(direction == "L"){
+                    }else if(snake.getDirection() == "L"){
                         snakeX[0] -= 25;
                         if(snakeX[0] < 0){
                             snakeX[0] = 775;
                         }
                     }
-                    else if (direction == "U"){
+                    else if (snake.getDirection() == "U"){
                         snakeY[0] -= 25;
                         if(snakeY[0] < 50){
                             snakeY[0] = 775;
                         }
                     }
-                    else if (direction == "D"){
+                    else if (snake.getDirection() == "D"){
                         snakeY[0] += 25;
                         if(snakeY[0] > 800){
                             snakeY[0] = 75;
@@ -105,13 +106,13 @@ public class MyPanel extends JPanel {
                     }
                     //蛇吃到食物
                     if(snakeX[0] == food.getX() && snakeY[0] == food.getY()){
-                        length++;
-                        score += 10;
+                        snake.setLength(snake.getLength() + 1);
+                        Score.scores += 10;
                         food.setX((int)((Math.random() * 31) + 1) * 25);//25 - 800
                         food.setY((int)((Math.random() * 28) + 3) * 25 );//75 - 800
                     }
                     //死亡条件
-                    for (int i = 1; i < length; i++) {
+                    for (int i = 1; i < snake.getLength(); i++) {
                         if(snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]){
                             isLive = false;
                         }
@@ -151,26 +152,26 @@ public class MyPanel extends JPanel {
                 if(isStart){
                     switch(e.getKeyCode()){
                         case KeyEvent.VK_W:
-                            if(direction != "D"){
-                                direction = "U";
+                            if(snake.getDirection() != "D"){
+                                snake.setDirection("U");
                                 repaint();
                             }
                             break;
                         case KeyEvent.VK_A:
-                            if(direction != "R"){
-                                direction = "L";
+                            if(snake.getDirection() != "R"){
+                                snake.setDirection("L");
                                 repaint();
                             }
                             break;
                         case KeyEvent.VK_D:
-                            if(direction != "L"){
-                                direction = "R";
+                            if(snake.getDirection() != "L"){
+                                snake.setDirection("R");
                                 repaint();
                             }
                             break;
                         case KeyEvent.VK_S:
-                            if(direction != "U"){
-                                direction = "D";
+                            if(snake.getDirection() != "U"){
+                                snake.setDirection("D");
                                 repaint();
                             }
                             break;
@@ -194,7 +195,7 @@ public class MyPanel extends JPanel {
         g.fillRect(0,50,800,750);
 
         //画蛇头
-        switch(direction){
+        switch(snake.getDirection()){
             case "R":
                 g.drawImage(bodyRightImg,snakeX[0],snakeY[0],this);
                 break;
@@ -209,7 +210,7 @@ public class MyPanel extends JPanel {
                 break;
         }
         //画蛇身
-        for (int i = 1; i < length; i++) {
+        for (int i = 1; i < snake.getLength(); i++) {
             g.drawImage(bodyImg,snakeX[i],snakeY[i],this);
         }
         //画食物
@@ -217,13 +218,13 @@ public class MyPanel extends JPanel {
         //画积分
         g.setColor(new Color(236, 9, 32));
         g.setFont(new Font("微软雅黑",Font.BOLD,30));
-        g.drawString("当前得分：" + score,25,35);
+        g.drawString("当前得分：" + Score.scores,25,35);
         //死亡提示
-       if(!isLive){
-           g.setColor(new Color(222, 210, 2));
-           g.setFont(new Font("微软雅黑",Font.BOLD,30));
-           g.drawString("游戏结束，按下空格后重新开始游戏",250,330);
-       }
+        if(!isLive){
+            g.setColor(new Color(222, 210, 2));
+            g.setFont(new Font("微软雅黑",Font.BOLD,30));
+            g.drawString("游戏结束，按下空格后重新开始游戏",250,330);
+        }
 
         if(!isStart){
             g.setColor(new Color(222, 210, 2));
