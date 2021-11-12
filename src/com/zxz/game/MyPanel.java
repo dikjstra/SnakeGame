@@ -190,7 +190,7 @@ public class MyPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         //填充背景颜色
-        this.setBackground(new Color(236, 223, 175, 62));
+        this.setBackground(new Color(4, 245, 63, 62));
         //游戏区域
         g.fillRect(0,50,800,750);
 
@@ -221,15 +221,15 @@ public class MyPanel extends JPanel {
         g.drawString("当前得分：" + Score.scores,25,35);
         //死亡提示
         if(!isLive){
-            g.setColor(new Color(222, 210, 2));
+            g.setColor(new Color(241, 1, 1));
             g.setFont(new Font("微软雅黑",Font.BOLD,30));
-            g.drawString("游戏结束，按下空格后重新开始游戏",250,330);
+            g.drawString("游戏结束，按下空格后重新开始游戏",300,35);
         }
 
         if(!isStart){
-            g.setColor(new Color(222, 210, 2));
+            g.setColor(new Color(249, 6, 239));
             g.setFont(new Font("微软雅黑",Font.BOLD,40));
-            g.drawString("点击空格开始游戏",250,330);
+            g.drawString("点击空格开始游戏",300,35);
         }
     }
 }
