@@ -17,8 +17,6 @@ public class MyPanel extends JPanel {
     Snake snake = null;
     //食物对象
     Food food = null;
-    //蛇存活状态
-    boolean isLive = true;
     //蛇朝向，默认向右
     //String direction;
     //游戏默认暂停
@@ -75,7 +73,7 @@ public class MyPanel extends JPanel {
             //蛇移动
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(isStart && isLive){
+                if(isStart && snake.isLive()){
                     //后一节身体替换前一节身体
                     for (int i = snake.getLength() - 1; i > 0; i--) {
                         snakeX[i] = snakeX[i - 1];
@@ -114,7 +112,7 @@ public class MyPanel extends JPanel {
                     //死亡条件
                     for (int i = 1; i < snake.getLength(); i++) {
                         if(snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]){
-                            isLive = false;
+                            snake.setLive(false);
                         }
                     }
                     repaint();
@@ -140,13 +138,13 @@ public class MyPanel extends JPanel {
             public void keyPressed(KeyEvent e) {
                 int keyCode = e.getKeyCode();
                 if(keyCode == KeyEvent.VK_SPACE){
-                    if(isLive){
+                    if(snake.isLive()){
                         isStart = !isStart;
                         repaint();
                     }else{
                         timer.stop();
                         init();//初始化游戏
-                        isLive = true;
+                        snake.setLive(true);
                     }
                 }
                 if(isStart){
@@ -220,7 +218,7 @@ public class MyPanel extends JPanel {
         g.setFont(new Font("微软雅黑",Font.BOLD,30));
         g.drawString("当前得分：" + Score.scores,25,35);
         //死亡提示
-        if(!isLive){
+        if(!snake.isLive()){
             g.setColor(new Color(241, 1, 1));
             g.setFont(new Font("微软雅黑",Font.BOLD,30));
             g.drawString("游戏结束，按下空格后重新开始游戏",300,35);

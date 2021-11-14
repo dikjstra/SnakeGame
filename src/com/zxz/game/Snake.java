@@ -13,6 +13,8 @@ public class Snake {
     private int length;
     //方向
     private String direction;
+    //蛇存活状态
+    private boolean isLive = true;
 
     public Snake() {
     }
@@ -22,6 +24,14 @@ public class Snake {
         this.snakeY = snakeY;
         this.length = length;
         this.direction = direction;
+    }
+
+    public boolean isLive() {
+        return isLive;
+    }
+
+    public void setLive(boolean live) {
+        isLive = live;
     }
 
     public int[] getSnakeX() {
