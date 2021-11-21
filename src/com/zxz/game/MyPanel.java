@@ -6,6 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author 周贤筑
@@ -13,6 +18,10 @@ import java.awt.event.KeyListener;
  * 游戏界面面板
  */
 public class MyPanel extends JPanel {
+    //保存文件路径
+    final static String filePath = "src\\score.txt";
+    //io对象
+    FileWriter fileWriter = null;
     //蛇对象
     Snake snake = null;
     //食物对象
@@ -222,6 +231,21 @@ public class MyPanel extends JPanel {
             g.setColor(new Color(241, 1, 1));
             g.setFont(new Font("微软雅黑",Font.BOLD,30));
             g.drawString("游戏结束，按下空格后重新开始游戏",300,35);
+            try {
+                Date day=new Date();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentTIme = df.format(day);
+                fileWriter = new FileWriter(filePath,true);
+                fileWriter.write("游戏时间：" + currentTIme + ",得分：" + Score.scores + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         if(!isStart){
