@@ -1,4 +1,4 @@
-package com.zxz.game;
+package com.zxz.game.snake;
 
 /**
  * @author 周贤筑

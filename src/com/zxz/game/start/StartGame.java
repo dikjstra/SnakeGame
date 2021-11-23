@@ -1,4 +1,6 @@
-package com.zxz.game;
+package com.zxz.game.start;
+
+import com.zxz.game.gamemap.GameMap;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +22,8 @@ public class StartGame {
         //关闭窗体即结束程序
         jf.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //创建面板
-        MyPanel mp = new MyPanel();
-        jf.add(mp);
+        GameMap map = new GameMap();
+        jf.add(map);
         jf.setVisible(true);
     }
 }

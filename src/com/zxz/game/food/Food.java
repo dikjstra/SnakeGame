@@ -1,4 +1,4 @@
-package com.zxz.game;
+package com.zxz.game.food;
 
 /**
  * @author 周贤筑
