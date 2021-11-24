@@ -16,12 +16,12 @@ public class SaveToFile {
     final static String filePath = "src\\score.txt";
     private static FileWriter fileWriter;
 
-    public static void save(){
+    public static void save() {
         try {
-            Date day=new Date();
+            Date day = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String currentTIme = df.format(day);
-            fileWriter = new FileWriter(filePath,true);
+            fileWriter = new FileWriter(filePath, true);
             fileWriter.write("游戏时间：" + currentTIme + ",得分：" + Score.scores + "\n");
         } catch (IOException e) {
             e.printStackTrace();
